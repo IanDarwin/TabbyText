@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <LinearLayout android:layout_height="wrap_content" 
+   		android:id="@+id/linearLayout1" 
+    	android:layout_width="fill_parent" 
+    	android:gravity="center_horizontal">
+        <TextView android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content" 
+	        android:id="@+id/contactLabel" 
+	        android:text="@string/contact"></TextView>
+        <EditText android:id="@+id/contactText" 
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content" 
+	        android:hint="Contact"></EditText>
+        <Button android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content" 
+	        android:id="@+id/contactChoose" 
+	        android:text="@string/from_contacts"></Button>
+    </LinearLayout>
+    <EditText android:hint="Message" 
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:id="@+id/messageText"></EditText>
+    <LinearLayout android:layout_height="wrap_content" 
+    	android:id="@+id/linearLayout2" 
+    	android:layout_width="fill_parent" 
+    	android:gravity="center_horizontal">
+	    <Button android:id="@+id/sendButton" 
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content" 
+	        android:text="@string/sendButtonLabel" 
+	        android:gravity="center_horizontal"></Button>
+    </LinearLayout>
+    <ListView 
+	    android:id="@+id/historyList" 
+	    android:layout_width="fill_parent" 
+	    android:layout_height="fill_parent"></ListView>
+</LinearLayout>
