@@ -1,24 +1,22 @@
 package com.darwinsys.tabbytext;
 
-import java.util.Set;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.Contacts.People;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class Main extends Activity {
 	private static final int REQ_GET_CONTACT = 1;
+	private EditText number;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -26,11 +24,14 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
+		number = (EditText) findViewById(R.id.contactText);
+		
 		Button b = (Button) findViewById(R.id.contactChoose);
 		b.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View arg0) {
-				Uri uri = Uri.parse("content://contacts/people");
+				Uri uri = ContactsContract.Contacts.CONTENT_URI;
+				System.out.println(uri);
 				Intent intent = new Intent(Intent.ACTION_PICK, uri);
 				startActivityForResult(intent, REQ_GET_CONTACT);
 			}
@@ -55,8 +56,7 @@ public class Main extends Activity {
 				int columnIndexForHasPhone = cont.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
 				boolean hasAnyPhone = Boolean.parseBoolean(cont.getString(columnIndexForHasPhone));
 				if (!hasAnyPhone) {
-					Toast.makeText(this, "Selected contact has no phone numbers ", Toast.LENGTH_LONG).show(); 
-					return;
+					Toast.makeText(this, "Selected contact seems to have no phone numbers ", Toast.LENGTH_LONG).show(); 
 				}
 				// Now we have to do another query to actually get the numbers!
 				Cursor numbers = getContentResolver().query(
@@ -64,12 +64,17 @@ public class Main extends Activity {
 						null, 
 						ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId, // "selection", 
 						null, null);
+				// XXX still need to restrict to Mobile number!
 				while (numbers.moveToNext()) {
 					String aNumber = numbers.getString(numbers.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 					System.out.println(aNumber);
-					return;
+					number.setText(aNumber);
 				}
-				Toast.makeText(this, "Selected contact has phone numbers but we didn't find them!", Toast.LENGTH_LONG).show(); 
+				if (cont.moveToNext()) {
+					System.out.println("WARNING: More than one contact returned from picker!");
+				}
+				numbers.close();
+				cont.close();
 				break;
 			case Activity.RESULT_CANCELED:
 				// nothing to do here
