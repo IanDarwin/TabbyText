@@ -1,0 +1,4 @@
+= TabbyText
+
+A trivial SMS sender. Just here as it exemplifies a few dev techniques,
+probably _not_ something you'd use in production.
