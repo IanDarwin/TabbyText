@@ -54,7 +54,7 @@ public class Main extends Activity {
 				int columnIndexForId = cont.getColumnIndex(ContactsContract.Contacts._ID);
 				String contactId = cont.getString(columnIndexForId);
 				int columnIndexForHasPhone = cont.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
-				boolean hasAnyPhone = Boolean.parseBoolean(cont.getString(columnIndexForHasPhone));
+				boolean hasAnyPhone = cont.getInt(columnIndexForHasPhone) != 0;
 				if (!hasAnyPhone) {
 					Toast.makeText(this, "Selected contact seems to have no phone numbers ", Toast.LENGTH_LONG).show(); 
 				}
